@@ -17,3 +17,7 @@ lib/
 
 # Azurite storage
 _storage_emulator
+
+# IDE/Editor specific folders
+.github/
+.vscode/
