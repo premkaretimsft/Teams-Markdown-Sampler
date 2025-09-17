@@ -10,24 +10,30 @@ import {
   CardFactory,
   Attachment,
   MessageFactory,
+  ActionTypes,
+  ChannelAccount,
 } from "botbuilder";
 import productSearchCommand from "./messageExtensions/productSearchCommand";
 import discountedSearchCommand from "./messageExtensions/discountSearchCommand";
 import revenueSearchCommand from "./messageExtensions/revenueSearchCommand";
 import actionHandler from "./adaptiveCards/cardHandler";
-import { CreateActionErrorResponse, CreateInvokeResponse } from "./adaptiveCards/utils";
-import { setTimeout as nodeTimeout} from "timers/promises";
+import {
+  CreateActionErrorResponse,
+  CreateInvokeResponse,
+} from "./adaptiveCards/utils";
+import { setTimeout as nodeTimeout } from "timers/promises";
 
-const streamingPacketsText = ["Prem streaming- Second informative request that is meant to be a little longer than the first one",
+const streamingPacketsText = [
+  "Prem streaming- Second informative request that is meant to be a little longer than the first one",
   `<p>In a quiet forest, a small stream flowed peacefully through the trees. It was no ordinary stream, for it was said to hold magical powers that could grant wishes to those who drank from its waters.<br/><br/>
 One day, a young girl named Lily stumbled upon the stream while wandering through the forest. She was lost and had been wandering for hours, but when she saw the stream, an overwhelming feeling of hope filled her heart.</p>`,
-`<p>Desperate for a way out of the forest, Lily approached the stream and knelt down to take a drink. As she sipped the cool, clear water, she closed her eyes and made a wish with all her heart.<br/><br/>
+  `<p>Desperate for a way out of the forest, Lily approached the stream and knelt down to take a drink. As she sipped the cool, clear water, she closed her eyes and made a wish with all her heart.<br/><br/>
 Suddenly, the world around her began to spin and swirl. When she opened her eyes again, she was no longer in the forest. Instead, she found herself in a grand castle, with marble floors and glittering chandeliers hanging overhead.<br/><br/>
 Confused but curious, Lily began to explore the castle. She wandered through grand ballrooms, ornate dining halls, and even a secret garden filled with rare flowers and exotic birds.</p>`,
-`<p>As she explored, she began to realize that the castle belonged to a powerful sorceress. She had heard stories of the sorceress before, of the endless riches and magical powers she possessed.<br/><br/> Lily realized that her wish had brought her to this place, and she knew that she had to find a way to make the most of this opportunity.
+  `<p>As she explored, she began to realize that the castle belonged to a powerful sorceress. She had heard stories of the sorceress before, of the endless riches and magical powers she possessed.<br/><br/> Lily realized that her wish had brought her to this place, and she knew that she had to find a way to make the most of this opportunity.
 For days, Lily explored the castle, learning all she could about the sorceress and her powers. She watched as the sorceress performed spells and incantations, and slowly but surely, she began to learn the ways of magic.<br/><br/>
 In time, Lily became a powerful sorceress in her own right. She learned to control the elements, to summon creatures from the forest, and to cast spells that could bend reality itself. And all because of a wish she made at a magical stream in the heart of a forest.</p>`,
-`<p>In time, Lily became a powerful sorceress in her own right. She learned to control the elements, to summon creatures from the forest, and to cast spells that could bend reality itself.<br/><br/> And all because of a wish she made at a magical stream in the heart of a forest.</p>`
+  `<p>In time, Lily became a powerful sorceress in her own right. She learned to control the elements, to summon creatures from the forest, and to cast spells that could bend reality itself.<br/><br/> And all because of a wish she made at a magical stream in the heart of a forest.</p>`,
 ];
 
 export class SearchApp extends TeamsActivityHandler {
@@ -41,41 +47,28 @@ export class SearchApp extends TeamsActivityHandler {
     super();
     this.notifyContinuationActivity = notifyContinuationActivity;
     this.continuationParameters = continuationParameters;
-
-    this.onReactionsAdded(async (context, next) => {
-      const reactionsAdded = context.activity.reactionsAdded;
-      if (reactionsAdded && reactionsAdded.length > 0) {
-        for (let i = 0; i < reactionsAdded.length; i++) {
-          const reaction = reactionsAdded[i];
-          const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
-          // Sends an activity to the sender of the incoming activity.
-          const resourceResponse = context.sendActivity(newReaction);
-          // Save information about the sent message and its ID (resourceResponse.id).
-        }
-      }
-    });
   }
 
   public async onMessageActivity(context: TurnContext): Promise<void> {
-    if (context.activity.text.includes("stream")) {
-      try {
-        await this.processStreamingRequest(
-          context,
-          context.activity.text.includes("ac"),
-          context.activity.text.includes("delay") ? 1500 : 900
-        );
-      } catch (error) {
-        // If an error occurs during sending, inform the user
-        await context.sendActivity(
-          MessageFactory.text(
-            "Error while sending streaming activity: " + error.message
-          )
-        );
-        throw new Error("Error sending activity: " + error.message); // Propagate error
-      }
-    } else {
-      this.addOrUpdateChannelPostParameters(context);
+    // this.addOrUpdateChannelPostParameters(context);
+    if (!context.activity.text.includes("error")) {
       await context.sendActivity(this.getBotAIGenActivity(context));
+    } else {
+      await context.sendActivity({
+        type: "message",
+        text: `Bot error simulation: ${context.activity.text}`,
+        entities: [
+          {
+            type: "BotMessageMetadata",
+            botErrorInfo: {
+              errorMessage:
+                "Simulated error occurred while processing the message activity.",
+              errorCode: 999,
+            },
+          },
+        ],
+      });
+      // throw new Error("Simulated error occurred while processing the message activity.");
     }
   }
 
@@ -168,132 +161,221 @@ export class SearchApp extends TeamsActivityHandler {
     isChannelPost: boolean = false,
     isEdited: boolean = false
   ): Partial<Activity> {
-    const edited = isEdited ? "Edited-" : "";
-    const powerpointImageObj = { name: "microsoft powerpoint" };
-    const excelImageObj = { name: "microsoft excel" };
-    const oneNoteImageObj = { name: "microsoft onenote" };
-    const wordImageObj = { name: "microsoft word" };
-    const citation1ImageObj = isChannelPost
-      ? powerpointImageObj
-      : excelImageObj;
-    const citation2ImageObj = isChannelPost ? oneNoteImageObj : wordImageObj;
-
-    // return {
-    //   type: "message",
-    //   text: `You said: ${context.activity.text}`,
-    //   attachments: [this.getChartInputActionsCard()],
-    //   entities: [
-    //     {
-    //       type: "https://schema.org/Message",
-    //       "@type": "Message",
-    //       "@context": "https://schema.org",
-    //       additionalType: ["AIGeneratedContent"], // AI Generated label
-    //     },
-    //   ],
-    //   channelData: {
-    //     feedbackLoopEnabled: true, // Enable feedback buttons
-    //   },
-    // };
+    const activityText = context.activity.text;
+    console.log(`${activityText} - ${isChannelPost} - ${isEdited}`);
 
     return {
       type: "message",
-      value: { requestId: "1234" },
-      attachments: [this.getChartAdaptiveCard()],
-      text: `[1] You said: ${context.activity.text} in ${
-        isChannelPost ? "channel post" : "reply"
-      }. From your inventory The information about chai in the Prkare Inventory indicates that it is supplied by Contoso Beverage Company of London with 349 units in stock. The stock information includes a unit price of 18 USD, an average discount of 8.6%, and an inventory valuation of 6,282 USD. There are currently 349 units in stock, with a reorder level of 25 units and a revenue this period of 12,788 USD.[1]
-      From the web There are also references to a "Chai's Inventory Sorter" which is a mod for Minecraft that allows for inventory sorting and management. However, this is likely not related to your query. [2]
-      If you need more detailed information or specific actions to be taken regarding the chai inventory, please let me know how I can further assist you.`,
-      channelData: { feedbackLoop: { type: "default" } },
-      // channelData: {
-      //   feedbackLoopEnabled: true // Enable feedback buttons
-      // },
+      text: `You said: ${activityText}`,
+      suggestedActions: {
+        to: [context.activity.from.id],
+        actions: [
+          {
+            type: ActionTypes.ImBack,
+            title: this.generateMarkdownTestContent(activityText),
+            value: "markdown",
+          },
+        ],
+      },
+      // attachments: [this.getChartXValuesCheckCard()],
       entities: [
+        {
+          type: "BotMessageMetadata",
+          aiMetadata: {
+            botAiSkill: "NewMarkdownMessageType",
+          },
+        },
         {
           type: "https://schema.org/Message",
           "@type": "Message",
           "@context": "https://schema.org",
-          "@id": "",
-          additionalType: ["AIGeneratedContent"],
-          usageInfo: {
-            name: `${
-              isChannelPost
-                ? "Company level sensitivity"
-                : "Org level sensitivity"
-            }`,
-            description: `Please don't share outside of the ${
-              isChannelPost ? "company" : "organization"
-            }`,
-            "@id": "1a19d03a-48bc-4359-8038-5b5f6d5847c3",
-            position: 5,
-          },
-          citation: [
+          additionalType: ["AIGeneratedContent"], // AI Generated label
+        },
+      ],
+      channelData: {
+        feedbackLoopEnabled: true, // Enable feedback buttons
+      },
+    };
+  }
+
+  /**
+   * Generates comprehensive markdown test content for Teams client rendering validation.
+   * Includes various markdown elements with proper spacing for thorough testing.
+   * @param activityText - The user's input text to incorporate into examples
+   * @returns Complete markdown string with extensive formatting examples
+   */
+  private generateMarkdownTestContent(activityText: string): string {
+    return `**You said this in bold: ${activityText} - This text should appear bold and emphasized!**
+
+_In italic: "The quick brown fox jumps over the lazy dog" - This text should appear slanted and stylized with elegant cursive-like rendering_
+
+***In bold italic: Welcome to the Microsoft 365 Copilot Testing Arena! - This combines both bold AND italic formatting for maximum emphasis!***
+
+~~In strikethrough: Outdated information from version 1.0.0 has been deprecated and crossed out~~
+
+In link: Click here to visit [Microsoft Teams Developer Platform Documentation](https://docs.microsoft.com/microsoftteams/platform) for comprehensive guides
+
+In code span: \`const apiEndpoint = "https://graph.microsoft.com/v1.0/me"; // inline code formatting with realistic API call\`
+
+# 🚀 Main Heading: Advanced Markdown Rendering Test Suite v2.5.1
+
+## 🎯 Subheading: React-Markdown Component Performance Analysis
+
+### 📈 Sub-subheading: Real-time Rendering Statistics Dashboard
+
+> **Albert Einstein once said:** "Imagination is more important than knowledge. Knowledge is limited, whereas imagination embraces the entire world, stimulating progress, giving birth to evolution."
+> 
+> This multi-line blockquote demonstrates how philosophical quotes should render with proper indentation, styling, and text flow across multiple lines in your Teams client.
+
+**🛠️ Advanced Feature Testing Checklist:**
+
+- 🔥 Process complex nested markdown structures
+- ⚡ Handle special characters: @#$%^&*(){}[]|\\;':",./<>?
+- 🎯 Render emojis and Unicode symbols: 🌟✨🎉🚀💡🔥⭐
+- 🌍 Support international text: Héllo Wörld! 你好世界! مرحبا بالعالم!
+- ✨ Format mathematical expressions: E=mc² and π≈3.14159
+
+**🔬 Scientific Workflow Process:**
+
+1. 📊 Initialize test environment with sample data set (n=1000)
+2. 🧪 Execute controlled experiments with variables A, B, and C
+3. 📈 Collect performance metrics: latency, throughput, error rates
+4. 🔍 Analyze results using statistical significance tests (p<0.05)
+5. 📝 Generate comprehensive reports with visualizations
+6. 🚀 Deploy optimized solution to production environment
+
+📊 **Performance Metrics Dashboard:**
+
+Component | Render Time (ms) | Memory Usage (MB) | CPU Load (%) | Status | Optimization Score
+--- | --- | --- | --- | --- | ---
+Header Navigation | 12.5 | 2.3 | 1.2 | � Optimal | 95/100
+Content Renderer | 45.8 | 8.7 | 4.5 | 🟡 Good | 87/100
+Markdown Parser | 23.1 | 5.2 | 2.8 | 🟢 Excellent | 98/100
+Image Processor | 156.3 | 15.9 | 12.7 | 🟠 Moderate | 73/100
+Table Generator | 34.7 | 6.1 | 3.2 | 🟢 Great | 91/100
+Syntax Highlighter | 67.2 | 11.4 | 7.8 | 🟢 Good | 85/100
+
+**�💻 Advanced Code Example - Teams Bot Implementation:**
+
+**🎨 Visual Separator with Custom Styling:**
+
+---
+
+**🌈 Multi-line Formatting Demonstration:**
+
+🎭 **Current Status:** Testing react-markdown rendering capabilities
+⚡ **Processing Speed:** 2,847 operations per second
+🎯 **Accuracy Rate:** 99.7% successful markdown transformations
+🔮 **Next Phase:** Advanced interactive component integration
+✨ **Final Goal:** Seamless Teams client markdown experience!
+
+**🖼️ Dynamic Test Image:** ![Complex Markdown Test Visualization](https://via.placeholder.com/400x200/FF6B6B/FFFFFF?text=React+Markdown+Test+Suite+v2.5.1)
+
+**🚀 Comprehensive Project Roadmap:**
+
+- [x] ✅ Initialize markdown parsing engine with TypeScript support
+- [x] 🎨 Implement custom styling for Teams-specific components
+- [x] 📱 Test responsive design across different screen sizes
+- [x] 🔧 Configure webpack optimization for production builds
+- [ ] 🧪 Conduct A/B testing with focus groups (target: 500 users)
+- [ ] 🌍 Add internationalization support for 12+ languages
+- [ ] 🔒 Implement advanced security measures and data encryption
+- [ ] 📈 Deploy analytics tracking for user engagement metrics
+- [ ] 🚀 Launch beta version to Microsoft Teams App Store
+- [ ] 🏆 Achieve 4.8+ star rating and 10,000+ active installations
+
+**💻 Advanced Code Example - Teams Bot Implementation:**
+
+\`\`\`typescript
+// Advanced Teams Bot with Adaptive Cards and Graph API integration
+import { TeamsActivityHandler, CardFactory, MessageFactory } from 'botbuilder';
+import { Client } from '@microsoft/microsoft-graph-client';
+
+interface TeamsMember {
+  id: string;
+  displayName: string;
+  email: string;
+  roles: string[];
+  lastActive: Date;
+}
+
+class AdvancedTeamsBot extends TeamsActivityHandler {
+  private graphClient: Client;
+  
+  constructor(graphClient: Client) {
+    super();
+    this.graphClient = graphClient;
+  }
+  
+  protected async onMessageActivity(context: TurnContext): Promise<void> {
+    const userMessage = context.activity.text?.toLowerCase();
+    
+    if (userMessage?.includes('analytics')) {
+      const analyticsCard = this.createAnalyticsCard();
+      await context.sendActivity(MessageFactory.attachment(analyticsCard));
+    }
+  }
+  
+  private createAnalyticsCard(): Attachment {
+    return CardFactory.adaptiveCard({
+      type: 'AdaptiveCard',
+      version: '1.4',
+      body: [{
+        type: 'TextBlock',
+        text: 'Advanced Analytics Dashboard',
+        weight: 'Bolder',
+        size: 'Large'
+      }]
+    });
+  }
+}
+
+export { AdvancedTeamsBot, TeamsMember };
+\`\`\``;
+  }
+
+  private getChartXValuesCheckCard(): Attachment {
+    return CardFactory.adaptiveCard({
+      $schema: "https://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.5",
+      msTeams: {
+        width: "full",
+      },
+      body: [
+        {
+          type: "Chart.Line",
+          colorSet: "categorical",
+          data: [
             {
-              "@type": "Claim",
-              position: 1,
-              appearance: {
-                "@type": "DigitalDocument",
-                name: "Beverages data in the company inventory reference list very very long test name for testing the citation name",
-                text: JSON.stringify(this.getChartAdaptiveCard().content),
-                url: "https://www.microsoft.com",
-                abstract: `From the web There are also references to a "Chai's Inventory Sorter" which is a mod for Minecraft that allows for inventory sorting and management. However, this is likely not related to your query. 2
-                If you need more detailed information or specific actions to be taken regarding the chai inventory.`,
-                encodingFormat: "application/vnd.microsoft.card.adaptive",
-                image: citation1ImageObj,
-                keywords: [
-                  "Company Data with a longer version of keyword to test the twenty eight character",
-                  "Recently Updated with a longer version of keyword to test the twenty eight character",
-                  "2022-09-19 17:44:17.858167 with a longer version of keyword to test the twenty eight",
-                ],
-                usageInfo: {
-                  "@type": "CreativeWork",
-                  description: "Please don't share outside of the company",
-                  name: "Company level sensitivity",
+              color: "categoricalBlue",
+              values: [
+                {
+                  x: "8Y",
+                  y: 3.921,
                 },
-              },
-            },
-            {
-              "@type": "Claim",
-              position: 2,
-              appearance: {
-                "@type": "DigitalDocument",
-                name: "Products revenue data in the company",
-                text: JSON.stringify(this.getChartAdaptiveCard().content),
-                url: "https://www.microsoft.com",
-                abstract: `From the web There are also references to a "Chai's Inventory Sorter" which is a mod for Minecraft that allows for inventory sorting and management. However, this is likely not related to your query. 2
-                If you need more detailed information or specific actions to be taken regarding the chai inventory.`,
-                encodingFormat: "application/vnd.microsoft.card.adaptive",
-                image: citation2ImageObj,
-                keywords: [
-                  "Company Data",
-                  "Recently Updated",
-                  "2022-09-19 17:44:17.858167",
-                ],
-                usageInfo: {
-                  "@type": "CreativeWork",
-                  "@id": "usage-info-1",
-                  description: "Please don't share outside of the company",
-                  name: "Company level sensitivity",
-                  position: 5,
-                  pattern: {
-                    "@type": "DefinedTerm",
-                    inDefinedTermSet: "https://www.w3.org/TR/css-values-4/",
-                    name: "color",
-                    termCode: "#454545",
-                  },
+                {
+                  x: "9Y",
+                  y: 3.994,
                 },
-              },
-              claimInterpreter: {
-                "@type": "Project",
-                name: "Claim Interpreter name",
-                slogan: "Claim Interpreter slogan",
-                url: "https://www.example.com/claim-interpreter",
-              },
+                {
+                  x: "10Y",
+                  y: 4.065,
+                },
+                {
+                  x: "11Y",
+                  y: 4.131,
+                },
+                {
+                  x: "12Y",
+                  y: 4.195,
+                },
+              ],
             },
           ],
         },
       ],
-    };
+    });
   }
 
   private getChartInputActionsCard(): Attachment {
@@ -357,6 +439,11 @@ export class SearchApp extends TeamsActivityHandler {
           title: "Action.Submit",
           conditionallyEnabled: true,
           associatedInputs: "auto",
+        },
+        {
+          type: "Action.OpenUrl",
+          title: "Handoff to Bot",
+          url: "https://teams.microsoft.com/l/chat/0/0?users=28:ff6df678-2ef6-47b9-b604-206d8686ea31&continuation=premtestconttoken",
         },
       ],
     });
@@ -566,6 +653,14 @@ export class SearchApp extends TeamsActivityHandler {
   public async onInvokeActivity(context: TurnContext): Promise<InvokeResponse> {
     try {
       switch (context.activity.name) {
+        case "odsl/statementExecuted":
+          return CreateInvokeResponse(200);
+        case "handoff/action":
+          // return CreateInvokeResponse(200);
+          return {
+            status: 200,
+            body: `handoff invoke received- ${context.activity.name}`,
+          };
         case "message/submitAction":
           return CreateInvokeResponse(200);
         case "composeExtension/query":
@@ -628,22 +723,61 @@ export class SearchApp extends TeamsActivityHandler {
     context: TurnContext
   ): Promise<AdaptiveCardInvokeResponse> {
     try {
-      switch (context.activity.value.action.verb) {
-        case "ok": {
-          return actionHandler.handleTeamsCardActionUpdateStock(context);
+      if (context.activity?.value?.action?.verb) {
+        switch (context.activity.value.action.verb) {
+          case "ok": {
+            return actionHandler.handleTeamsCardActionUpdateStock(context);
+          }
+          case "restock": {
+            return actionHandler.handleTeamsCardActionRestock(context);
+          }
+          case "cancel": {
+            return actionHandler.handleTeamsCardActionCancelRestock(context);
+          }
+          default:
+            return CreateActionErrorResponse(
+              400,
+              0,
+              `ActionVerbNotSupported: ${context.activity.value.action.verb} is not a supported action verb.`
+            );
         }
-        case "restock": {
-          return actionHandler.handleTeamsCardActionRestock(context);
-        }
-        case "cancel": {
-          return actionHandler.handleTeamsCardActionCancelRestock(context);
-        }
-        default:
-          return CreateActionErrorResponse(
-            400,
-            0,
-            `ActionVerbNotSupported: ${context.activity.value.action.verb} is not a supported action verb.`
-          );
+      } else {
+        return {
+          statusCode: 200,
+          type: "application/vnd.microsoft.card.adaptive",
+          value: {
+            type: "AdaptiveCard",
+            $schema: "https://adaptivecards.io/schemas/adaptive-card.json",
+            version: "1.6",
+            body: [
+              {
+                type: "Input.ChoiceSet",
+                choices: [
+                  {
+                    title: "Choice 1",
+                    value: "Choice 1",
+                  },
+                  {
+                    title: "Choice 2",
+                    value: "Choice 2",
+                  },
+                ],
+                placeholder: "Placeholder text",
+                id: "choiceSet",
+                label: "ChoiceSet input",
+                isRequired: true,
+                errorMessage: "Error",
+              },
+            ],
+            actions: [
+              {
+                type: "Action.OpenUrl",
+                title: "Invoke successful",
+                url: "https://www.microsoft.com",
+              },
+            ],
+          },
+        };
       }
     } catch (err) {
       return CreateActionErrorResponse(500, 0, err.message);
