@@ -139,26 +139,26 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 server.post("/api/messages", async (req, res) => {
   await adapter.process(req, res, async (context) => {
     await searchApp.run(context);
-    console.log("------------------------");
-    console.log("-------Response(Incoming Request)---------");
-    console.log(res);
+    // console.log("------------------------");
+    // console.log("-------Response(Incoming Request)---------");
+    // console.log(res);
   });
 });
 
-server.on("after", function (req, res, route, error) {
-  console.log("------------------------");
-  console.log("------Request(in after method)---------");
-  // console.log(req.route.path);
-  console.log(req.body);
-  console.log("------------------------");
-  console.log("-------Response(in after method)---------");
-  console.log(`Http Status: ${res.statusCode}`);
-  console.log(`Has Body: ${res._hasBody}`);
-  //console.log(`Response Headers: ${res.getHeaders()}`);
-  console.log(`Response Headers: ${res.header('ms-cv')}`);
-  console.log(res._data);
-  console.log(res.body);
-});
+// server.on("after", function (req, res, route, error) {
+//   console.log("------------------------");
+//   console.log("------Request(in after method)---------");
+//   // console.log(req.route.path);
+//   console.log(req.body);
+//   console.log("------------------------");
+//   console.log("-------Response(in after method)---------");
+//   console.log(`Http Status: ${res.statusCode}`);
+//   console.log(`Has Body: ${res._hasBody}`);
+//   //console.log(`Response Headers: ${res.getHeaders()}`);
+//   console.log(`Response Headers: ${res.header('ms-cv')}`);
+//   console.log(res._data);
+//   console.log(res.body);
+// });
 
 // server.on("pre", function (req, res) {
 //   console.log("---------In Pre Method------------");

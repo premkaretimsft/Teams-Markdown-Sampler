@@ -174,6 +174,32 @@ class AdvancedTeamsBot extends TeamsActivityHandler {
 export { AdvancedTeamsBot, TeamsMember };
 \`\`\``,
     ],
+
+    [
+      "KaTeX Math Equations",
+      `**🧮 Mathematical Expressions with KaTeX:**
+
+**Quadratic Formula:** The solution to $ax^2 + bx + c = 0$ is given by:
+
+$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
+
+**Euler's Identity:** One of the most beautiful equations in mathematics:
+
+$$e^{i\\pi} + 1 = 0$$
+
+**Fourier Transform:** Converting from time domain to frequency domain:
+
+$$F(\\omega) = \\int_{-\\infty}^{\\infty} f(t) e^{-i\\omega t} dt$$
+
+**Inline Math Examples:** 
+- Area of circle: $A = \\pi r^2$ 
+- Pythagorean theorem: $a^2 + b^2 = c^2$
+- Derivative: $\\frac{d}{dx}(x^n) = nx^{n-1}$
+
+**Matrix Operations:**
+
+$$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} ax + by \\\\ cx + dy \\end{pmatrix}$$`,
+    ],
   ]);
 
   constructor(
@@ -233,20 +259,16 @@ export { AdvancedTeamsBot, TeamsMember };
           actions: [
             {
               type: ActionTypes.ImBack,
+              title: "Tag",
+              value: "NewMarkdownMessageType",
+            },
+            {
+              type: ActionTypes.ImBack,
               title: markdownContent,
               value: "markdown",
             },
           ],
-        },
-        entities: [
-          {
-            type: "BotMessageMetadata",
-            aiMetadata: {
-              botAiSkill: "NewMarkdownMessageType",
-              scenarioName: selectedScenario,
-            },
-          },
-        ],
+        }
       });
       return;
     }
@@ -285,12 +307,6 @@ export { AdvancedTeamsBot, TeamsMember };
       type: "message",
       text: `You said: ${activityText}\n\n💡 **Tip:** Type 'list' to see available markdown test scenarios, or type a number (1-${this.markdownScenarios.size}) to select a specific scenario.`,
       entities: [
-        {
-          type: "BotMessageMetadata",
-          aiMetadata: {
-            botAiSkill: "NewMarkdownMessageType",
-          },
-        },
         {
           type: "https://schema.org/Message",
           "@type": "Message",
