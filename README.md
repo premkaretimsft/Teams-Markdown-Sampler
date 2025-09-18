@@ -1,4 +1,4 @@
-# Team Markdwon Sampler
+# Teams Markdwon Sampler
 
 Microsoft Teams agent to send markdown content to client bypassing backend checks that normally convert the markdown in message content to html. These changes won't work by themself but need to be matched with custom client code to see the result on client.
 
