@@ -200,6 +200,415 @@ $$F(\\omega) = \\int_{-\\infty}^{\\infty} f(t) e^{-i\\omega t} dt$$
 
 $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} ax + by \\\\ cx + dy \\end{pmatrix}$$`,
     ],
+
+    [
+      "Mermaid Diagrams",
+      `**📊 Interactive Diagrams with Mermaid:**
+
+**Simple Flow Chart:**
+\`\`\`mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+\`\`\`
+
+**Development Workflow:**
+\`\`\`mermaid
+graph LR;
+    Start[Start Development] --> Code[Write Code];
+    Code --> Test[Run Tests];
+    Test --> Pass{Tests Pass?};
+    Pass -->|Yes| Deploy[Deploy to Production];
+    Pass -->|No| Debug[Debug Issues];
+    Debug --> Code;
+    Deploy --> End[Release Complete];
+\`\`\`
+
+**Sequence Diagram:**
+\`\`\`mermaid
+sequenceDiagram
+    participant User
+    participant Bot
+    participant API
+    User->>Bot: Send Message
+    Bot->>API: Process Request
+    API-->>Bot: Return Data
+    Bot-->>User: Send Response
+\`\`\`
+
+**Gantt Chart:**
+\`\`\`mermaid
+gantt
+    title Teams Bot Development
+    dateFormat  YYYY-MM-DD
+    section Planning
+    Requirements    :done, req, 2024-01-01, 2024-01-05
+    Design         :done, design, after req, 3d
+    section Development
+    Core Features  :active, dev1, 2024-01-10, 10d
+    Testing        :dev2, after dev1, 5d
+\`\`\``,
+    ],
+
+    [
+      "Adaptive Card",
+      `**🎴 Interactive Adaptive Card Example:**
+
+This example demonstrates how Teams can render rich, interactive Adaptive Cards using the \`adaptivecard\` fenced block syntax:
+
+\`\`\`adaptivecard
+{
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "Publish Adaptive Card schema"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "style": "Person",
+              "url": "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+              "size": "Small"
+            }
+          ],
+          "width": "auto"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "Matt Hidinger",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "None",
+              "text": "Created {{DATE(2017-02-14T06:08:39Z,SHORT)}}",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "stretch"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.",
+      "wrap": true
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Board:",
+          "value": "Adaptive Card"
+        },
+        {
+          "title": "List:",
+          "value": "Backlog"
+        },
+        {
+          "title": "Assigned to:",
+          "value": "Matt Hidinger"
+        },
+        {
+          "title": "Due date:",
+          "value": "Not set"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "Set due date",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "Input.Date",
+            "id": "dueDate"
+          },
+          {
+            "type": "Input.Text",
+            "id": "comment",
+            "placeholder": "Add a comment",
+            "isMultiline": true
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "Comment",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "Input.Text",
+            "id": "comment",
+            "isMultiline": true,
+            "placeholder": "Add a comment"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "OK"
+          }
+        ]
+      }
+    }
+  ]
+}
+\`\`\`
+
+**Features demonstrated:**
+- TextBlock with styling options
+- ColumnSet layout with Person image
+- FactSet for structured data display
+- Action.ShowCard for interactive elements
+- Nested Adaptive Cards within actions`,
+    ],
+
+    [
+      "Mixed Content with Adaptive Cards",
+      `**🎭 Advanced Mixed Content Demonstration**
+
+This scenario showcases **Adaptive Cards interlaced with markdown** for rich, interactive content experiences.
+
+## 📊 Project Status Dashboard
+
+Here's our current project status with interactive elements:
+
+\`\`\`adaptivecard
+{
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "🚀 Teams Bot Development Status",
+      "weight": "Bolder",
+      "size": "Large",
+      "color": "Accent"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        { "title": "Sprint:", "value": "Sprint 12 - Q4 2024" },
+        { "title": "Progress:", "value": "78% Complete" },
+        { "title": "Team Velocity:", "value": "42 Story Points" },
+        { "title": "Release Date:", "value": "November 15, 2024" }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "📈 View Details",
+          "data": { "action": "viewDetails" }
+        },
+        {
+          "type": "Action.Submit",
+          "title": "🔄 Refresh Status",
+          "data": { "action": "refresh" }
+        }
+      ]
+    }
+  ]
+}
+\`\`\`
+
+---
+
+## 🧮 Mathematical Analysis
+
+Between our interactive cards, let's analyze the performance metrics:
+
+**Team Productivity Formula:** $P = \\frac{S \\times V}{T}$ where:
+- $P$ = Productivity Score
+- $S$ = Sprint Completion Rate (0.78)
+- $V$ = Velocity (42 points)  
+- $T$ = Time in weeks (2)
+
+$$P = \\frac{0.78 \\times 42}{2} = 16.38 \\text{ points/week}$$
+
+### 📋 Task Management Card
+
+\`\`\`adaptivecard
+{
+  "type": "AdaptiveCard",
+  "version": "1.4", 
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "✅ Quick Task Actions",
+      "weight": "Bolder",
+      "size": "Medium"
+    },
+    {
+      "type": "Input.Text",
+      "id": "taskTitle",
+      "placeholder": "Enter new task title...",
+      "maxLength": 100
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "priority",
+      "style": "compact",
+      "value": "medium",
+      "choices": [
+        { "title": "🔴 High Priority", "value": "high" },
+        { "title": "🟡 Medium Priority", "value": "medium" },
+        { "title": "🟢 Low Priority", "value": "low" }
+      ]
+    },
+    {
+      "type": "Input.Date",
+      "id": "dueDate",
+      "title": "Due Date"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "➕ Create Task",
+      "data": { "action": "createTask" }
+    }
+  ]
+}
+\`\`\`
+
+## 🔀 Process Flow Diagram
+
+Our development workflow integrates seamlessly:
+
+\`\`\`mermaid
+graph TB
+    A[📝 Planning] --> B{🤔 Ready?}
+    B -->|Yes| C[💻 Development]
+    B -->|No| D[📋 More Planning]
+    D --> A
+    C --> E[🧪 Testing]
+    E --> F{✅ Pass?}
+    F -->|Yes| G[🚀 Deploy]
+    F -->|No| H[🐛 Bug Fix]
+    H --> C
+    G --> I[📊 Monitor]
+\`\`\`
+
+### 📈 Performance Analytics Card
+
+\`\`\`adaptivecard
+{
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "📊 Real-time Analytics Dashboard",
+      "weight": "Bolder",
+      "size": "Medium",
+      "horizontalAlignment": "Center"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "🎯 Active Users",
+              "weight": "Bolder"
+            },
+            {
+              "type": "TextBlock", 
+              "text": "1,247",
+              "size": "ExtraLarge",
+              "color": "Good"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "⚡ Response Time",
+              "weight": "Bolder"
+            },
+            {
+              "type": "TextBlock",
+              "text": "145ms",
+              "size": "ExtraLarge",
+              "color": "Accent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "📊 Full Report",
+          "data": { "action": "fullReport" }
+        },
+        {
+          "type": "Action.Submit", 
+          "title": "⚙️ Settings",
+          "data": { "action": "settings" }
+        }
+      ]
+    }
+  ]
+}
+\`\`\`
+
+## 🎨 Visual Elements & Code
+
+**Inline Code Integration:** \`const adaptiveCard = new AdaptiveCard()\`
+
+> **Important Note:** The combination of Adaptive Cards with markdown creates a **hybrid experience** that leverages both static content formatting and interactive UI elements.
+
+**Feature Checklist:**
+- [x] ✅ Interactive form inputs within cards
+- [x] 🎯 Real-time data visualization  
+- [x] 🔄 Action-based user interactions
+- [x] 📊 Mathematical formula integration
+- [ ] 🌐 Multi-language support
+- [ ] 📱 Mobile optimization testing
+
+---
+
+**🎉 Final Result:** This mixed content approach demonstrates how **markdown text**, **mathematical equations**, **diagrams**, and **interactive Adaptive Cards** can work together to create comprehensive, engaging user experiences in Microsoft Teams!`,
+    ],
   ]);
 
   constructor(
@@ -268,7 +677,7 @@ $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\e
               value: "markdown",
             },
           ],
-        }
+        },
       });
       return;
     }
