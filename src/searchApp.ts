@@ -91,172 +91,12 @@ Syntax Highlighter | 67.2 | 11.4 | 7.8 | 🟢 Good | 85/100`,
     ],
 
     [
-      "Visual Elements",
-      `**🎨 Visual Separator with Custom Styling:**
-
----
-
-**🌈 Multi-line Formatting Demonstration:**
-
-🎭 **Current Status:** Testing react-markdown rendering capabilities
-⚡ **Processing Speed:** 2,847 operations per second  
-🎯 **Accuracy Rate:** 99.7% successful markdown transformations
-🔮 **Next Phase:** Advanced interactive component integration
-✨ **Final Goal:** Seamless Teams client markdown experience!
-
-**🖼️ Dynamic Test Image:** ![Markdown Test Visualization](https://via.placeholder.com/400x200/FF6B6B/FFFFFF?text=React+Markdown+Test+Suite)`,
-    ],
-
-    [
-      "Project Roadmap",
-      `**🚀 Comprehensive Project Roadmap:**
-
-- [x] ✅ Initialize markdown parsing engine with TypeScript support
-- [x] 🎨 Implement custom styling for Teams-specific components  
-- [x] 📱 Test responsive design across different screen sizes
-- [x] 🔧 Configure webpack optimization for production builds
-- [ ] 🧪 Conduct A/B testing with focus groups (target: 500 users)
-- [ ] 🌍 Add internationalization support for 12+ languages
-- [ ] 🔒 Implement advanced security measures and data encryption
-- [ ] 📈 Deploy analytics tracking for user engagement metrics
-- [ ] 🚀 Launch beta version to Microsoft Teams App Store
-- [ ] 🏆 Achieve 4.8+ star rating and 10,000+ active installations`,
-    ],
-
-    [
-      "TypeScript Code",
-      `**💻 Advanced Code Example - Teams Bot Implementation:**
-
-\`\`\`typescript
-// Advanced Teams Bot with Adaptive Cards and Graph API integration
-import { TeamsActivityHandler, CardFactory, MessageFactory } from 'botbuilder';
-import { Client } from '@microsoft/microsoft-graph-client';
-
-interface TeamsMember {
-  id: string;
-  displayName: string;
-  email: string;
-  roles: string[];
-  lastActive: Date;
-}
-
-class AdvancedTeamsBot extends TeamsActivityHandler {
-  private graphClient: Client;
-  
-  constructor(graphClient: Client) {
-    super();
-    this.graphClient = graphClient;
-  }
-  
-  protected async onMessageActivity(context: TurnContext): Promise<void> {
-    const userMessage = context.activity.text?.toLowerCase();
-    
-    if (userMessage?.includes('analytics')) {
-      const analyticsCard = this.createAnalyticsCard();
-      await context.sendActivity(MessageFactory.attachment(analyticsCard));
-    }
-  }
-  
-  private createAnalyticsCard(): Attachment {
-    return CardFactory.adaptiveCard({
-      type: 'AdaptiveCard',
-      version: '1.4',
-      body: [{
-        type: 'TextBlock',
-        text: 'Advanced Analytics Dashboard',
-        weight: 'Bolder',
-        size: 'Large'
-      }]
-    });
-  }
-}
-
-export { AdvancedTeamsBot, TeamsMember };
-\`\`\``,
-    ],
-
-    [
-      "KaTeX Math Equations",
-      `**🧮 Mathematical Expressions with KaTeX:**
-
-**Quadratic Formula:** The solution to $ax^2 + bx + c = 0$ is given by:
-
-$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
-
-**Euler's Identity:** One of the most beautiful equations in mathematics:
-
-$$e^{i\\pi} + 1 = 0$$
-
-**Fourier Transform:** Converting from time domain to frequency domain:
-
-$$F(\\omega) = \\int_{-\\infty}^{\\infty} f(t) e^{-i\\omega t} dt$$
-
-**Inline Math Examples:** 
-- Area of circle: $A = \\pi r^2$ 
-- Pythagorean theorem: $a^2 + b^2 = c^2$
-- Derivative: $\\frac{d}{dx}(x^n) = nx^{n-1}$
-
-**Matrix Operations:**
-
-$$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} ax + by \\\\ cx + dy \\end{pmatrix}$$`,
-    ],
-
-    [
-      "Mermaid Diagrams",
-      `**📊 Interactive Diagrams with Mermaid:**
-
-**Simple Flow Chart:**
-\`\`\`mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-\`\`\`
-
-**Development Workflow:**
-\`\`\`mermaid
-graph LR;
-    Start[Start Development] --> Code[Write Code];
-    Code --> Test[Run Tests];
-    Test --> Pass{Tests Pass?};
-    Pass -->|Yes| Deploy[Deploy to Production];
-    Pass -->|No| Debug[Debug Issues];
-    Debug --> Code;
-    Deploy --> End[Release Complete];
-\`\`\`
-
-**Sequence Diagram:**
-\`\`\`mermaid
-sequenceDiagram
-    participant User
-    participant Bot
-    participant API
-    User->>Bot: Send Message
-    Bot->>API: Process Request
-    API-->>Bot: Return Data
-    Bot-->>User: Send Response
-\`\`\`
-
-**Gantt Chart:**
-\`\`\`mermaid
-gantt
-    title Teams Bot Development
-    dateFormat  YYYY-MM-DD
-    section Planning
-    Requirements    :done, req, 2024-01-01, 2024-01-05
-    Design         :done, design, after req, 3d
-    section Development
-    Core Features  :active, dev1, 2024-01-10, 10d
-    Testing        :dev2, after dev1, 5d
-\`\`\``,
-    ],
-
-    [
       "Adaptive Card",
-      `**🎴 Interactive Adaptive Card Example:**
+      `**🎴 Interactive Adaptive Card Examples:**
 
 This example demonstrates how Teams can render rich, interactive Adaptive Cards using the \`adaptivecard\` fenced block syntax:
+
+**Card Example 1: Project Schema Card**
 
 \`\`\`adaptivecard
 {
@@ -383,23 +223,7 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
 }
 \`\`\`
 
-**Features demonstrated:**
-- TextBlock with styling options
-- ColumnSet layout with Person image
-- FactSet for structured data display
-- Action.ShowCard for interactive elements
-- Nested Adaptive Cards within actions`,
-    ],
-
-    [
-      "Mixed Content with Adaptive Cards",
-      `**🎭 Advanced Mixed Content Demonstration**
-
-This scenario showcases **Adaptive Cards interlaced with markdown** for rich, interactive content experiences.
-
-## 📊 Project Status Dashboard
-
-Here's our current project status with interactive elements:
+**Card Example 2: Team Status Dashboard**
 
 \`\`\`adaptivecard
 {
@@ -408,206 +232,245 @@ Here's our current project status with interactive elements:
   "body": [
     {
       "type": "TextBlock",
-      "text": "🚀 Teams Bot Development Status",
+      "text": "🚀 Development Team Status",
       "weight": "Bolder",
       "size": "Large",
       "color": "Accent"
-    },
-    {
-      "type": "FactSet",
-      "facts": [
-        { "title": "Sprint:", "value": "Sprint 12 - Q4 2024" },
-        { "title": "Progress:", "value": "78% Complete" },
-        { "title": "Team Velocity:", "value": "42 Story Points" },
-        { "title": "Release Date:", "value": "November 15, 2024" }
-      ]
-    },
-    {
-      "type": "ActionSet",
-      "actions": [
-        {
-          "type": "Action.Submit",
-          "title": "📈 View Details",
-          "data": { "action": "viewDetails" }
-        },
-        {
-          "type": "Action.Submit",
-          "title": "🔄 Refresh Status",
-          "data": { "action": "refresh" }
-        }
-      ]
-    }
-  ]
-}
-\`\`\`
-
----
-
-## 🧮 Mathematical Analysis
-
-Between our interactive cards, let's analyze the performance metrics:
-
-**Team Productivity Formula:** $P = \\frac{S \\times V}{T}$ where:
-- $P$ = Productivity Score
-- $S$ = Sprint Completion Rate (0.78)
-- $V$ = Velocity (42 points)  
-- $T$ = Time in weeks (2)
-
-$$P = \\frac{0.78 \\times 42}{2} = 16.38 \\text{ points/week}$$
-
-### 📋 Task Management Card
-
-\`\`\`adaptivecard
-{
-  "type": "AdaptiveCard",
-  "version": "1.4", 
-  "body": [
-    {
-      "type": "TextBlock",
-      "text": "✅ Quick Task Actions",
-      "weight": "Bolder",
-      "size": "Medium"
-    },
-    {
-      "type": "Input.Text",
-      "id": "taskTitle",
-      "placeholder": "Enter new task title...",
-      "maxLength": 100
-    },
-    {
-      "type": "Input.ChoiceSet",
-      "id": "priority",
-      "style": "compact",
-      "value": "medium",
-      "choices": [
-        { "title": "🔴 High Priority", "value": "high" },
-        { "title": "🟡 Medium Priority", "value": "medium" },
-        { "title": "🟢 Low Priority", "value": "low" }
-      ]
-    },
-    {
-      "type": "Input.Date",
-      "id": "dueDate",
-      "title": "Due Date"
-    }
-  ],
-  "actions": [
-    {
-      "type": "Action.Submit",
-      "title": "➕ Create Task",
-      "data": { "action": "createTask" }
-    }
-  ]
-}
-\`\`\`
-
-## 🔀 Process Flow Diagram
-
-Our development workflow integrates seamlessly:
-
-\`\`\`mermaid
-graph TB
-    A[📝 Planning] --> B{🤔 Ready?}
-    B -->|Yes| C[💻 Development]
-    B -->|No| D[📋 More Planning]
-    D --> A
-    C --> E[🧪 Testing]
-    E --> F{✅ Pass?}
-    F -->|Yes| G[🚀 Deploy]
-    F -->|No| H[🐛 Bug Fix]
-    H --> C
-    G --> I[📊 Monitor]
-\`\`\`
-
-### 📈 Performance Analytics Card
-
-\`\`\`adaptivecard
-{
-  "type": "AdaptiveCard",
-  "version": "1.4",
-  "body": [
-    {
-      "type": "TextBlock",
-      "text": "📊 Real-time Analytics Dashboard",
-      "weight": "Bolder",
-      "size": "Medium",
-      "horizontalAlignment": "Center"
     },
     {
       "type": "ColumnSet",
       "columns": [
         {
           "type": "Column",
-          "width": "stretch",
           "items": [
             {
-              "type": "TextBlock",
-              "text": "🎯 Active Users",
-              "weight": "Bolder"
-            },
-            {
-              "type": "TextBlock", 
-              "text": "1,247",
-              "size": "ExtraLarge",
-              "color": "Good"
+              "type": "Image",
+              "style": "Person",
+              "url": "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+              "size": "Small"
             }
-          ]
+          ],
+          "width": "auto"
         },
         {
           "type": "Column",
-          "width": "stretch",
           "items": [
             {
               "type": "TextBlock",
-              "text": "⚡ Response Time",
-              "weight": "Bolder"
+              "weight": "Bolder",
+              "text": "Sarah Chen - Team Lead",
+              "wrap": true
             },
             {
               "type": "TextBlock",
-              "text": "145ms",
-              "size": "ExtraLarge",
-              "color": "Accent"
+              "spacing": "None",
+              "text": "Online • Last active 2 minutes ago",
+              "isSubtle": true,
+              "wrap": true,
+              "color": "Good"
             }
-          ]
+          ],
+          "width": "stretch"
         }
       ]
     },
     {
-      "type": "ActionSet",
-      "actions": [
+      "type": "FactSet",
+      "facts": [
         {
-          "type": "Action.Submit",
-          "title": "📊 Full Report",
-          "data": { "action": "fullReport" }
+          "title": "Sprint:",
+          "value": "Sprint 24 - Teams Integration"
         },
         {
-          "type": "Action.Submit", 
-          "title": "⚙️ Settings",
-          "data": { "action": "settings" }
+          "title": "Team Capacity:",
+          "value": "85% (34/40 hours)"
+        },
+        {
+          "title": "Velocity:",
+          "value": "47 Story Points"
+        },
+        {
+          "title": "Release Target:",
+          "value": "Q1 2025"
         }
       ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "Update Status",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "Input.ChoiceSet",
+            "id": "status",
+            "style": "compact",
+            "value": "active",
+            "choices": [
+              { "title": "🟢 Active", "value": "active" },
+              { "title": "🟡 Away", "value": "away" },
+              { "title": "🔴 Busy", "value": "busy" },
+              { "title": "⚪ Offline", "value": "offline" }
+            ]
+          },
+          {
+            "type": "Input.Text",
+            "id": "message",
+            "placeholder": "Status message (optional)",
+            "maxLength": 100
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Update"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.ShowCard",
+      "title": "View Team",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "👥 **Active Team Members:**"
+          },
+          {
+            "type": "TextBlock",
+            "text": "• Alex Rodriguez - Frontend Dev\n• Jordan Kim - Backend Dev\n• Casey Morgan - QA Engineer\n• Taylor Swift - UX Designer",
+            "wrap": true
+          }
+        ]
+      }
     }
   ]
 }
 \`\`\`
 
-## 🎨 Visual Elements & Code
+**Features demonstrated:**
+- TextBlock with styling options and colors
+- ColumnSet layout with Person images
+- FactSet for structured data display
+- Action.ShowCard for interactive elements
+- Nested Adaptive Cards with form inputs
+- ChoiceSet with multiple options
+- Multiple card variations within one scenario`,
+    ],
 
-**Inline Code Integration:** \`const adaptiveCard = new AdaptiveCard()\`
+    [
+      "Project Roadmap",
+      `**🚀 Comprehensive Project Roadmap:**
 
-> **Important Note:** The combination of Adaptive Cards with markdown creates a **hybrid experience** that leverages both static content formatting and interactive UI elements.
+- [x] ✅ Initialize markdown parsing engine with TypeScript support
+- [x] 🎨 Implement custom styling for Teams-specific components  
+- [x] 📱 Test responsive design across different screen sizes
+- [x] 🔧 Configure webpack optimization for production builds
+- [ ] 🧪 Conduct A/B testing with focus groups (target: 500 users)
+- [ ] 🌍 Add internationalization support for 12+ languages
+- [ ] 🔒 Implement advanced security measures and data encryption
+- [ ] 📈 Deploy analytics tracking for user engagement metrics
+- [ ] 🚀 Launch beta version to Microsoft Teams App Store
+- [ ] 🏆 Achieve 4.8+ star rating and 10,000+ active installations`,
+    ],
 
-**Feature Checklist:**
-- [x] ✅ Interactive form inputs within cards
-- [x] 🎯 Real-time data visualization  
-- [x] 🔄 Action-based user interactions
-- [x] 📊 Mathematical formula integration
-- [ ] 🌐 Multi-language support
-- [ ] 📱 Mobile optimization testing
+    [
+      "TypeScript Code",
+      `**💻 Advanced Code Example - Teams Bot Implementation:**
+
+\`\`\`typescript
+// Advanced Teams Bot with Adaptive Cards and Graph API integration
+import { TeamsActivityHandler, CardFactory, MessageFactory } from 'botbuilder';
+import { Client } from '@microsoft/microsoft-graph-client';
+
+interface TeamsMember {
+  id: string;
+  displayName: string;
+  email: string;
+  roles: string[];
+  lastActive: Date;
+}
+
+class AdvancedTeamsBot extends TeamsActivityHandler {
+  private graphClient: Client;
+  
+  constructor(graphClient: Client) {
+    super();
+    this.graphClient = graphClient;
+  }
+  
+  protected async onMessageActivity(context: TurnContext): Promise<void> {
+    const userMessage = context.activity.text?.toLowerCase();
+    
+    if (userMessage?.includes('analytics')) {
+      const analyticsCard = this.createAnalyticsCard();
+      await context.sendActivity(MessageFactory.attachment(analyticsCard));
+    }
+  }
+  
+  private createAnalyticsCard(): Attachment {
+    return CardFactory.adaptiveCard({
+      type: 'AdaptiveCard',
+      version: '1.4',
+      body: [{
+        type: 'TextBlock',
+        text: 'Advanced Analytics Dashboard',
+        weight: 'Bolder',
+        size: 'Large'
+      }]
+    });
+  }
+}
+
+export { AdvancedTeamsBot, TeamsMember };
+\`\`\``,
+    ],
+
+    [
+      "KaTeX Math Equations",
+      `**🧮 Mathematical Expressions with KaTeX:**
+
+**Quadratic Formula:** The solution to $ax^2 + bx + c = 0$ is given by:
+
+$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
+
+**Euler's Identity:** One of the most beautiful equations in mathematics:
+
+$$e^{i\\pi} + 1 = 0$$
+
+**Fourier Transform:** Converting from time domain to frequency domain:
+
+$$F(\\omega) = \\int_{-\\infty}^{\\infty} f(t) e^{-i\\omega t} dt$$
+
+**Inline Math Examples:** 
+- Area of circle: $A = \\pi r^2$ 
+- Pythagorean theorem: $a^2 + b^2 = c^2$
+- Derivative: $\\frac{d}{dx}(x^n) = nx^{n-1}$
+
+**Matrix Operations:**
+
+$$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} ax + by \\\\ cx + dy \\end{pmatrix}$$`,
+    ],
+
+    [
+      "Visual Elements",
+      `**� Visual Separator with Custom Styling:**
 
 ---
 
-**🎉 Final Result:** This mixed content approach demonstrates how **markdown text**, **mathematical equations**, **diagrams**, and **interactive Adaptive Cards** can work together to create comprehensive, engaging user experiences in Microsoft Teams!`,
+**🌈 Multi-line Formatting Demonstration:**
+
+🎭 **Current Status:** Testing react-markdown rendering capabilities
+⚡ **Processing Speed:** 2,847 operations per second  
+🎯 **Accuracy Rate:** 99.7% successful markdown transformations
+🔮 **Next Phase:** Advanced interactive component integration
+✨ **Final Goal:** Seamless Teams client markdown experience!
+
+**🖼️ Dynamic Test Image:** ![Markdown Test Visualization](https://via.placeholder.com/400x200/FF6B6B/FFFFFF?text=React+Markdown+Test+Suite)`,
     ],
   ]);
 
