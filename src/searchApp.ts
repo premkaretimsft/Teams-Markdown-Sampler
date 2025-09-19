@@ -101,7 +101,7 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
 \`\`\`adaptivecard
 {
   "type": "AdaptiveCard",
-  "version": "1.4",
+  "version": "1.6",
   "body": [
     {
       "type": "TextBlock",
@@ -223,19 +223,18 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
 }
 \`\`\`
 
-**Card Example 2: Team Status Dashboard**
+**Card Example 2: Project Schema Card (Copy)**
 
 \`\`\`adaptivecard
 {
   "type": "AdaptiveCard",
-  "version": "1.4",
+  "version": "1.6",
   "body": [
     {
       "type": "TextBlock",
-      "text": "🚀 Development Team Status",
+      "size": "Medium",
       "weight": "Bolder",
-      "size": "Large",
-      "color": "Accent"
+      "text": "Publish Adaptive Card schema"
     },
     {
       "type": "ColumnSet",
@@ -258,16 +257,15 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
             {
               "type": "TextBlock",
               "weight": "Bolder",
-              "text": "Sarah Chen - Team Lead",
+              "text": "Matt Hidinger",
               "wrap": true
             },
             {
               "type": "TextBlock",
               "spacing": "None",
-              "text": "Online • Last active 2 minutes ago",
+              "text": "Created {{DATE(2017-02-14T06:08:39Z,SHORT)}}",
               "isSubtle": true,
-              "wrap": true,
-              "color": "Good"
+              "wrap": true
             }
           ],
           "width": "stretch"
@@ -275,23 +273,28 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
       ]
     },
     {
+      "type": "TextBlock",
+      "text": "Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.",
+      "wrap": true
+    },
+    {
       "type": "FactSet",
       "facts": [
         {
-          "title": "Sprint:",
-          "value": "Sprint 24 - Teams Integration"
+          "title": "Board:",
+          "value": "Adaptive Card"
         },
         {
-          "title": "Team Capacity:",
-          "value": "85% (34/40 hours)"
+          "title": "List:",
+          "value": "Backlog"
         },
         {
-          "title": "Velocity:",
-          "value": "47 Story Points"
+          "title": "Assigned to:",
+          "value": "Matt Hidinger"
         },
         {
-          "title": "Release Target:",
-          "value": "Q1 2025"
+          "title": "Due date:",
+          "value": "Not set"
         }
       ]
     }
@@ -299,51 +302,46 @@ This example demonstrates how Teams can render rich, interactive Adaptive Cards 
   "actions": [
     {
       "type": "Action.ShowCard",
-      "title": "Update Status",
+      "title": "Set due date",
       "card": {
         "type": "AdaptiveCard",
         "body": [
           {
-            "type": "Input.ChoiceSet",
-            "id": "status",
-            "style": "compact",
-            "value": "active",
-            "choices": [
-              { "title": "🟢 Active", "value": "active" },
-              { "title": "🟡 Away", "value": "away" },
-              { "title": "🔴 Busy", "value": "busy" },
-              { "title": "⚪ Offline", "value": "offline" }
-            ]
+            "type": "Input.Date",
+            "id": "dueDate"
           },
           {
             "type": "Input.Text",
-            "id": "message",
-            "placeholder": "Status message (optional)",
-            "maxLength": 100
+            "id": "comment",
+            "placeholder": "Add a comment",
+            "isMultiline": true
           }
         ],
         "actions": [
           {
             "type": "Action.Submit",
-            "title": "Update"
+            "title": "OK"
           }
         ]
       }
     },
     {
       "type": "Action.ShowCard",
-      "title": "View Team",
+      "title": "Comment",
       "card": {
         "type": "AdaptiveCard",
         "body": [
           {
-            "type": "TextBlock",
-            "text": "👥 **Active Team Members:**"
-          },
+            "type": "Input.Text",
+            "id": "comment",
+            "isMultiline": true,
+            "placeholder": "Add a comment"
+          }
+        ],
+        "actions": [
           {
-            "type": "TextBlock",
-            "text": "• Alex Rodriguez - Frontend Dev\n• Jordan Kim - Backend Dev\n• Casey Morgan - QA Engineer\n• Taylor Swift - UX Designer",
-            "wrap": true
+            "type": "Action.Submit",
+            "title": "OK"
           }
         ]
       }
@@ -596,7 +594,7 @@ $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\e
     return CardFactory.adaptiveCard({
       $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
       type: "AdaptiveCard",
-      version: "1.4",
+      version: "1.6",
       body: [
         {
           type: "TextBlock",
