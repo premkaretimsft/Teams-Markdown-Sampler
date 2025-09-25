@@ -9,7 +9,9 @@ import {
   CardFactory,
   Attachment,
   ActionTypes,
+  ActivityTypes,
 } from "botbuilder";
+import { setTimeout as nodeTimeout } from "timers/promises";
 import productSearchCommand from "./messageExtensions/productSearchCommand";
 import discountedSearchCommand from "./messageExtensions/discountSearchCommand";
 import revenueSearchCommand from "./messageExtensions/revenueSearchCommand";
@@ -493,6 +495,106 @@ $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\e
     return `# 🎯 Complete Markdown Test Suite - All Scenarios Combined\n\n${allScenarios}`;
   }
 
+  private getStreamingActivity(
+    streamType: string,
+    streamId: string,
+    sequence: number,
+    selectedScenario: string,
+    markdownContent: string,
+    fromId: string
+  ): Partial<Activity> {
+    let textContent: string;
+
+    if (streamType === "informative") {
+      textContent = sequence === 0 
+        ? `🔍 Preparing markdown scenario: ${selectedScenario}...`
+        : `🎨 Rendering markdown content with enhanced formatting...`;
+    } else {
+      textContent = `You selected: ${selectedScenario}`;
+    }
+
+    const activity: Partial<Activity> = {
+      type: streamType === "final" ? ActivityTypes.Message : ActivityTypes.Typing,
+      text: textContent,
+      entities: [
+        {
+          type: "streaminfo",
+          streamType: streamType,
+          streamId: streamId,
+        },
+      ],
+    };
+
+    if (streamType !== "final") {
+      activity.entities[0]["streamSequence"] = sequence + 2;
+    } else {
+      activity.suggestedActions = {
+        to: [fromId],
+        actions: [
+          {
+            type: ActionTypes.ImBack,
+            title: "Tag",
+            value: "NewMarkdownMessageType",
+          },
+          {
+            type: ActionTypes.ImBack,
+            title: markdownContent,
+            value: "markdown",
+          },
+        ],
+      };
+    }
+
+    return activity;
+  }
+
+  private async processMarkdownStreamingRequest(
+    context: TurnContext,
+    selectedScenario: string,
+    markdownContent: string
+  ): Promise<void> {
+    const result = await context.sendActivity({
+      type: ActivityTypes.Typing,
+      text: `🔍 Preparing markdown scenario: ${selectedScenario}...`,
+      entities: [
+        {
+          type: "streaminfo",
+          streamType: "informative",
+          streamSequence: 1,
+        },
+      ],
+    });
+
+    const streamId = result.id;
+    console.log(`streamId: ${streamId}`);
+
+    await nodeTimeout(1000);
+
+    const secondActivity = this.getStreamingActivity(
+      "informative",
+      streamId,
+      1,
+      selectedScenario,
+      markdownContent,
+      context.activity.from.id
+    );
+    
+    await context.sendActivity(secondActivity);
+
+    await nodeTimeout(1500);
+
+    const finalActivity = this.getStreamingActivity(
+      "final",
+      streamId,
+      2,
+      selectedScenario,
+      markdownContent,
+      context.activity.from.id
+    );
+    
+    await context.sendActivity(finalActivity);
+  }
+
   public async onMessageActivity(context: TurnContext): Promise<void> {
     // this.addOrUpdateChannelPostParameters(context);
     const userText = context.activity.text?.toLowerCase().trim();
@@ -521,25 +623,8 @@ $$\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} \\begin{pmatrix} x \\\\ y \\e
       const selectedScenario = scenarioNames[scenarioNumber - 1];
       const markdownContent = this.markdownScenarios.get(selectedScenario);
 
-      await context.sendActivity({
-        type: "message",
-        text: `You selected: ${selectedScenario}`,
-        suggestedActions: {
-          to: [context.activity.from.id],
-          actions: [
-            {
-              type: ActionTypes.ImBack,
-              title: "Tag",
-              value: "NewMarkdownMessageType",
-            },
-            {
-              type: ActionTypes.ImBack,
-              title: markdownContent,
-              value: "markdown",
-            },
-          ],
-        },
-      });
+      // Use streaming approach for markdown scenario selection
+      await this.processMarkdownStreamingRequest(context, selectedScenario, markdownContent);
       return;
     }
 
